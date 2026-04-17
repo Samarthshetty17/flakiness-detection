@@ -1,5 +1,7 @@
 from groq import Groq
+import os
 import pandas as pd
+
 df = pd.read_csv("testneo_test_executions.csv")
 data_sample = df.head(20).to_string()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
