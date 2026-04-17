@@ -14,7 +14,7 @@ def analyze():
         client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
         response = client.chat.completions.create(
-            model="llama3-8b-8192",
+            model="llama3-70b-8192",
             messages=[
                 {"role": "user", "content": "Analyze flaky test patterns"}
             ]
