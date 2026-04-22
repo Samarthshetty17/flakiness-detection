@@ -1,10 +1,17 @@
+import os
+from langchain_groq import ChatGroq
 from crewai import Agent, Task, Crew
+
+llm = ChatGroq(
+    api_key=os.getenv("GROQ_API_KEY"),
+    model="llama-3.1-8b-instant"
+)
 
 analysis_agent = Agent(
     role="Test Analyst",
     goal="Find flaky tests",
     backstory="Expert in testing",
-    llm="llama-3.1-8b-instant",
+    llm=llm,
     verbose=True
 )
 
@@ -12,11 +19,10 @@ fix_agent = Agent(
     role="Fix Expert",
     goal="Suggest fixes",
     backstory="Debugging expert",
-    llm="llama-3.1-8b-instant",
+    llm=llm,
     verbose=True
 )
 
-# Tasks
 analysis_task = Task(
     description="Analyze flaky test data and identify issues",
     expected_output="List of flaky tests with reasons",
@@ -29,7 +35,6 @@ fix_task = Task(
     agent=fix_agent
 )
 
-# Crew
 crew = Crew(
     agents=[analysis_agent, fix_agent],
     tasks=[analysis_task, fix_task],
@@ -39,7 +44,6 @@ crew = Crew(
 def run_crew():
     return crew.kickoff()
 
-# Run
 if __name__ == "__main__":
     result = run_crew()
     print("\nFINAL RESULT:\n")
