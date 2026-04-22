@@ -1,6 +1,4 @@
 import os
-from langchain_groq import ChatGroq
-from crewai import Agent, Task, Crew
 
 llm = ChatGroq(
     api_key=os.getenv("GROQ_API_KEY"),
